@@ -24,6 +24,7 @@ dependencies {
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"
     compile 'de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.2.0'
     compile 'com.natpryce:konfig:1.6.10.0'
+    compile 'org.neo4j.driver:neo4j-java-driver:1.7.2'
 }
 
 compileKotlin {
