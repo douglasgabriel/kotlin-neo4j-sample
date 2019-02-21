@@ -1,8 +1,10 @@
-package io.github.douglasgabriel.resources.repositories
+package io.github.douglasgabriel.resources.persistence.user.repositories
 
 import io.github.douglasgabriel.domain.user.entities.User
 import io.github.douglasgabriel.domain.user.repositories.UsersRepository
 import io.github.douglasgabriel.resources.datasources.Datasource
+import io.github.douglasgabriel.resources.persistence.user.dtos.UserNode
+import io.github.douglasgabriel.resources.persistence.user.dtos.toDto
 import org.neo4j.ogm.session.Session
 
 class UsersRepositoryImpl(
@@ -10,13 +12,16 @@ class UsersRepositoryImpl(
 ) : UsersRepository {
 
     override fun createOrUpdate(user: User): User = transaction {
-        user.also { save(it) }
+        user.also { save(it.toDto()) }
     }
 
     override fun addFriend(username: String, friendUsername: String): User = transaction {
-        load(User::class.java, username)
-                .addFriend(User(friendUsername))
+        val depth = 2
+
+        load(UserNode::class.java, username, depth)
+                .apply { this.friends = this.friends.plus(UserNode(friendUsername)) }
                 .also { save(it) }
+                .toDomainModel()
     }
 
     private fun <T> transaction(op: Session.() -> T) =

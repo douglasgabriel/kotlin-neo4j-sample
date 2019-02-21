@@ -7,6 +7,6 @@ data class CreateUserRequest(
         val age: Int
 ) {
     fun toDomain() = User(
-            username, age
+            username, age, emptyList()
     )
 }
