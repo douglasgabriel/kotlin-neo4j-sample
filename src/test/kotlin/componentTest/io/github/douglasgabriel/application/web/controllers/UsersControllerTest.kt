@@ -1,5 +1,6 @@
 package componentTest.io.github.douglasgabriel.application.web.controllers
 
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import componentTest.commons.FuelSimplifier
 import componentTest.components.DIMock
@@ -7,6 +8,7 @@ import componentTest.components.Neo4JDatasource
 import io.github.douglasgabriel.application.Application
 import io.github.douglasgabriel.application.web.controllers.UsersController
 import io.github.douglasgabriel.domain.user.entities.User
+import io.github.douglasgabriel.resources.persistence.user.dtos.ChatGroupNode
 import io.github.douglasgabriel.resources.persistence.user.dtos.UserNode
 import org.eclipse.jetty.http.HttpStatus
 import kotlin.test.assertEquals
@@ -120,6 +122,27 @@ object UsersControllerTest: Spek({
 
                     describe("get") {
 
+                        it ("should return a HTTP status 200 and the requesteds user"){
+                            host.post("/users", "users/create_user2--valid")
+                            host.post("/users", "users/create_user3--valid")
+
+                            host.post("/users/test/chat-groups", "users/add_user_to_chat_group2--valid")
+                            host.post("/users/user2/chat-groups", "users/add_user_to_chat_group2--valid")
+                            host.post("/users/user3/chat-groups", "users/add_user_to_chat_group3--valid")
+
+                            host
+                                .get("/users/$username/direct-contacts")
+                                .let {
+
+                                    val users: List<User> = jacksonObjectMapper().readValue(it.data,
+                                        jacksonObjectMapper().typeFactory.constructCollectionType(
+                                            List::class.java,
+                                            User::class.java
+                                        ))
+
+                                    print(users)
+                                }
+                        }
                     }
                 }
             }
