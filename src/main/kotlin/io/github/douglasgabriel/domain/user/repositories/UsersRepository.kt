@@ -9,4 +9,8 @@ interface UsersRepository {
     fun addFriend(userName: String, friendUsername: String): User
 
     fun retrieveById(userName: String): User
+
+    fun addToGroup(username: String, chatGroupId: Long): User
+
+    fun retrieveAllDirectContacts(username: String): List<User>
 }

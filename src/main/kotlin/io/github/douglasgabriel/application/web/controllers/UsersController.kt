@@ -35,4 +35,9 @@ class UsersController(
             }
     }
 
+
+    fun retrieveDirectContacts(ctx: Context) {
+
+    }
+
 }

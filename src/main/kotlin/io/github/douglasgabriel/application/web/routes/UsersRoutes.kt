@@ -12,14 +12,18 @@ class UsersRoutes(
 
     fun register() {
         path("users") {
-            path(":username") {
-                get(usersController::retrieveById)
-            }
-
             post(usersController::create)
+            path(":username") {
 
-            path(":username/friends") {
-                post(usersController::addFriend)
+                get(usersController::retrieveById)
+
+                path("friends") {
+                    post(usersController::addFriend)
+                }
+
+                path("direct-contacts") {
+                    get(usersController::retrieveDirectContacts)
+                }
             }
         }
     }

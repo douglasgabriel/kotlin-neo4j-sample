@@ -26,7 +26,11 @@ tasks.withType(Test) {
     }
 }
 
+
 dependencies {
+    def neo4jCore = '3.1.7'
+    def neo4jDependencies = '3.5.3'
+
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile 'org.koin:koin-core:1.0.2'
     compile 'io.javalin:javalin:2.6.0'
@@ -35,17 +39,21 @@ dependencies {
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"
     compile 'de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.2.0'
     compile 'com.natpryce:konfig:1.6.10.0'
-    compile "org.neo4j:neo4j-ogm-core:3.1.2"
-    
-    runtime "org.neo4j:neo4j-ogm-bolt-driver:3.1.2"
+    compile "org.neo4j:neo4j-ogm-core:$neo4jCore"
+    compile "org.json:json:20090211"
+
+    runtime "org.neo4j:neo4j-ogm-bolt-driver:$neo4jCore"
 
     testCompile 'io.mockk:mockk:1.8.6'
     testCompile 'com.github.kittinunf.fuel:fuel:2.0.1'
     testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.2.61'
 
-    testRuntimeOnly "org.neo4j:neo4j-kernel:2.3.3"
-    testRuntimeOnly 'org.neo4j:neo4j-lucene-index:2.3.3'
-    testRuntimeOnly "org.neo4j:neo4j-ogm-embedded-driver:3.1.2"
+    testRuntimeOnly "org.neo4j:neo4j-ogm-embedded-driver:$neo4jCore"
+    testRuntimeOnly "org.neo4j:neo4j-kernel:$neo4jDependencies"
+    testRuntimeOnly "org.neo4j:neo4j-lucene-index:$neo4jDependencies"
+    testRuntimeOnly "org.neo4j:neo4j-cypher:$neo4jDependencies"
+    testRuntimeOnly "org.neo4j:neo4j:$neo4jDependencies"
+
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
 
     testImplementation ('org.spekframework.spek2:spek-dsl-jvm:2.0.0-rc.1')  {

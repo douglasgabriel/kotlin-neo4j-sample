@@ -13,4 +13,10 @@ class UserServiceImpl(
 
     override fun addFriend(userName: String, friendUserName: String): User =
             usersRepository.addFriend(userName, friendUserName)
+
+    override fun retrieveAllDirectContacts(username: String) =
+            usersRepository.retrieveAllDirectContacts(username)
+
+    override fun addToGroup(username: String, chatGroupId: Long) =
+            usersRepository.addToGroup(username, chatGroupId)
 }
