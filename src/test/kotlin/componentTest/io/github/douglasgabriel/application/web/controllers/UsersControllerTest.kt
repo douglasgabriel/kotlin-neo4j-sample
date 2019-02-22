@@ -28,9 +28,12 @@ object UsersControllerTest: Spek({
         after { application.stop() }
 
         describe("/users") {
-            context("when there is no user") {
-                it("should return a HTTP status 200") {
-                    host
+
+            describe("post"){
+
+                context("when there is no user") {
+                    it("should return a HTTP status 200") {
+                        host
                             .post("/users", "users/create_user--valid")
                             .let {
                                 val user = jacksonObjectMapper().readValue(it.data, User::class.java)
@@ -39,7 +42,9 @@ object UsersControllerTest: Spek({
                                 assertEquals("test", user.username)
                                 assertEquals(30, user.age)
                                 assert(user.friends.isEmpty())
+                                assert(user.chatGroups.isEmpty())
                             }
+                    }
                 }
             }
 
@@ -54,8 +59,11 @@ object UsersControllerTest: Spek({
                 }
 
                 describe("/:id") {
-                    it("should return a HTTP status 200 and the requested user") {
-                        host
+
+                    describe("get"){
+
+                        it("should return a HTTP status 200 and the requested user") {
+                            host
                                 .get("/users/$username")
                                 .let {
                                     val user = jacksonObjectMapper().readValue(it.data, User::class.java)
@@ -64,12 +72,14 @@ object UsersControllerTest: Spek({
                                     assertEquals(username, user.username)
                                     assertEquals(userAge, user.age)
                                 }
+                        }
                     }
                 }
 
                 describe("/friends") {
 
                     describe("post") {
+
                         it("should return a HTTP status 200") {
                             host
                                     .post("/users/$username/friends", "users/add_user_friend--valid")
@@ -83,6 +93,33 @@ object UsersControllerTest: Spek({
                                         assertEquals(user.friends.first().username, "friend")
                                     }
                         }
+                    }
+                }
+
+                describe("/chat-groups"){
+
+                    describe("post") {
+
+                        it("should return a HTTP status 200"){
+                            host
+                                .post("/users/$username/chat-groups", "users/add_user_to_chat_group--valid")
+                                .let {
+                                    val user = jacksonObjectMapper().readValue(it.data, User::class.java)
+
+                                    assertEquals(HttpStatus.OK_200, it.statusCode)
+                                    assertEquals(username, user.username)
+                                    assertEquals(userAge, user.age)
+                                    assertFalse(user.chatGroups.isEmpty())
+                                    assertEquals(user.chatGroups.first().name, "testGroup")
+                                }
+                        }
+                    }
+                }
+
+                describe("/direct-contacts"){
+
+                    describe("get") {
+
                     }
                 }
             }
