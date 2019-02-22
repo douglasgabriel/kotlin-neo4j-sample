@@ -17,6 +17,11 @@ object UsersControllerTest: Spek({
         before {
             DIMock.mockModules()
             Application()
+
+            //TODO: Criar usuário
+            //TODO: Criar relação de amizade com usuário
+            //TODO: Recuperar usuário e avaliar relacionamentos
+
         }
 
         it("teste") {

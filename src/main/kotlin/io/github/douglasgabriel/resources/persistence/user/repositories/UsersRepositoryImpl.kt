@@ -15,13 +15,18 @@ class UsersRepositoryImpl(
         user.also { save(it.toDto()) }
     }
 
-    override fun addFriend(username: String, friendUsername: String): User = transaction {
-        val depth = 2
+    override fun addFriend(userName: String, friendUsername: String): User = transaction {
+        val depth = 1
 
-        load(UserNode::class.java, username, depth)
+        load(UserNode::class.java, userName, depth)
                 .apply { this.friends = this.friends.plus(UserNode(friendUsername)) }
                 .also { save(it) }
-                .toDomainModel()
+                .toDomainModel(depth)
+    }
+
+    override fun retrieveById(userName: String) = transaction {
+            val depth = 4
+            load(UserNode::class.java, userName).toDomainModel(depth)
     }
 
     private fun <T> transaction(op: Session.() -> T) =

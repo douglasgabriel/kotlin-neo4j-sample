@@ -7,15 +7,17 @@ import org.neo4j.ogm.annotation.Relationship
 
 @NodeEntity("User")
 class UserNode(
-        @Id var username: String? = null,
-        var age: Int? = null,
-        @Relationship(direction = Relationship.UNDIRECTED) var friends: List<UserNode> = emptyList()
+    @Id var username: String? = null,
+    var age: Int? = 0,
+    @Relationship(direction = Relationship.UNDIRECTED) var friends: List<UserNode> = emptyList()
 ) {
-    fun toDomainModel(): User = User(
-            this.username!!, this.age!!, this.friends.map { it.toDomainModel() }
+    fun toDomainModel(depth: Int = 1, currentDepth: Int = 0): User = User(
+        this.username!!, this.age!!, this.friends.mapNotNull {
+            if (currentDepth < depth) it.toDomainModel(depth, currentDepth + 1) else null
+        }
     )
 }
 
 fun User.toDto(): UserNode = UserNode(
-        this.username, this.age, this.friends.map { it.toDto() }
+    this.username, this.age, this.friends.map { it.toDto() }
 )

@@ -9,7 +9,7 @@ object Neo4JDatasource {
 
     fun getDatabase() = object : Datasource<Session> {
         private val config = Configuration.Builder().build()
-        private val factory = SessionFactory(config, "io.github.douglasgabriel");
+        private val factory = SessionFactory(config, "io.github.douglasgabriel")
 
         override fun getDatabase(): Session = factory.openSession()
     }

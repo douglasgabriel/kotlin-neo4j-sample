@@ -6,5 +6,7 @@ interface UserService {
 
     fun save(user: User): User
 
-    fun addFriend(username: String, friendUserName: String): User
+    fun addFriend(userName: String, friendUserName: String): User
+
+    fun retrieveById(userName: String): User
 }

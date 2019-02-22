@@ -6,5 +6,7 @@ interface UsersRepository {
 
     fun createOrUpdate(user: User): User
 
-    fun addFriend(username: String, friendUsername: String): User
+    fun addFriend(userName: String, friendUsername: String): User
+
+    fun retrieveById(userName: String): User
 }
