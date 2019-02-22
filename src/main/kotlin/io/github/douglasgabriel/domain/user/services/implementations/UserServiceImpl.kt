@@ -17,6 +17,6 @@ class UserServiceImpl(
     override fun retrieveAllDirectContacts(username: String) =
             usersRepository.retrieveAllDirectContacts(username)
 
-    override fun addToGroup(username: String, chatGroupId: Long) =
-            usersRepository.addToGroup(username, chatGroupId)
+    override fun addToChatGroup(username: String, chatGroupName: String) =
+            usersRepository.addToGroup(username, chatGroupName)
 }

@@ -21,6 +21,10 @@ class UsersRoutes(
                     post(usersController::addFriend)
                 }
 
+                path("chat-groups"){
+                    post(usersController::addChatGroup)
+                }
+
                 path("direct-contacts") {
                     get(usersController::retrieveDirectContacts)
                 }

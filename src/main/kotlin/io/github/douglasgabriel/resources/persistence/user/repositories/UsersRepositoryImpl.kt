@@ -9,7 +9,7 @@ import io.github.douglasgabriel.resources.persistence.user.dtos.toDto
 import org.neo4j.ogm.session.Session
 
 class UsersRepositoryImpl(
-        private val datasource: Datasource<Session>
+    private val datasource: Datasource<Session>
 ) : UsersRepository {
 
     override fun createOrUpdate(user: User): User = transaction {
@@ -20,30 +20,31 @@ class UsersRepositoryImpl(
         val depth = 1
 
         load(UserNode::class.java, userName, depth)
-                .apply { this.friends = this.friends.plus(UserNode(friendUsername)) }
-                .also { save(it) }
-                .toDomainModel(depth)
+            .apply { this.friends = this.friends.plus(UserNode(friendUsername)) }
+            .also { save(it) }
+            .toDomainModel(depth)
     }
 
-    override fun addToGroup(username: String, chatGroupId: Long) = transaction {
+    override fun addToGroup(username: String, chatGroupName: String) = transaction {
         load(UserNode::class.java, username)
-                .apply { this.chatGroups = this.chatGroups.plus(ChatGroupNode(chatGroupId)) }
-                .also { save(it) }
-                .toDomainModel()
+            .apply { this.chatGroups = this.chatGroups.plus(ChatGroupNode(chatGroupName)) }
+            .also { save(it) }
+            .toDomainModel()
     }
 
     override fun retrieveById(userName: String) = transaction {
-            val depth = 4
-            load(UserNode::class.java, userName).toDomainModel(depth)
+        val depth = 4
+        load(UserNode::class.java, userName).toDomainModel(depth)
     }
 
     override fun retrieveAllDirectContacts(username: String) = transaction {
-        load(UserNode::class.java, username)
-                .chatGroups
-                .flatMap { it.members }
-                .map { it.toDomainModel() }
+        val queryString =
+            "MATCH(u:User{username: {username}})-[:BELONGS_TO]->(c:ChatGroup)<-[:BELONGS_TO]-(u2:User) RETURN u2"
+        query(UserNode::class.java, queryString, mapOf("username" to username)).map {
+            it.toDomainModel()
+        }
     }
 
     private fun <T> transaction(op: Session.() -> T) =
-            datasource.getDatabase().op()
+        datasource.getDatabase().op()
 }

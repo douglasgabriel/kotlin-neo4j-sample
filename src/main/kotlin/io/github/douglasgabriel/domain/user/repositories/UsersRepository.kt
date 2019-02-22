@@ -10,7 +10,7 @@ interface UsersRepository {
 
     fun retrieveById(userName: String): User
 
-    fun addToGroup(username: String, chatGroupId: Long): User
+    fun addToGroup(username: String, chatGroupName: String): User
 
     fun retrieveAllDirectContacts(username: String): List<User>
 }

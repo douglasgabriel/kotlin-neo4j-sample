@@ -1,5 +1,6 @@
 package io.github.douglasgabriel.application.web.controllers
 
+import io.github.douglasgabriel.application.web.dtos.AddChatGroupRequest
 import io.github.douglasgabriel.application.web.dtos.AddFriendRequest
 import io.github.douglasgabriel.application.web.dtos.CreateUserRequest
 import io.github.douglasgabriel.domain.user.services.UserService
@@ -37,7 +38,21 @@ class UsersController(
 
 
     fun retrieveDirectContacts(ctx: Context) {
+        val userName = ctx.pathParam("username")
+        userService.retrieveAllDirectContacts(userName)
+            .also {
+                ctx.json(it)
+            }
+    }
 
+    fun addChatGroup(ctx: Context) {
+        val userName = ctx.pathParam("username")
+        val chapGroupName = ctx.body<AddChatGroupRequest>().name
+
+        userService.addToChatGroup(userName, chapGroupName)
+            .also {
+                ctx.json(it)
+            }
     }
 
 }

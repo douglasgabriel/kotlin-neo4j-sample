@@ -18,14 +18,14 @@ object UsersControllerTest: Spek({
 
     describe("${UsersController::class.simpleName}") {
         val host = FuelSimplifier("http://localhost:7000")
+        lateinit var application: Application
 
         before {
             DIMock.mockModules()
-            Application()
-
-            //TODO: Recuperar usuário e avaliar relacionamentos
-
+            application = Application()
         }
+
+        after { application.stop() }
 
         describe("/users") {
             context("when there is no user") {
@@ -52,21 +52,6 @@ object UsersControllerTest: Spek({
                         save(UserNode(username, userAge))
                     }
                 }
-
-                User -> group -> User
-
-                "/users/<username>/group/users"
-
-                Allyx.cpf -> credito
-
-                "/chatGroups/<tal>/pessoas"
-                /resources/id/relation
-                "/user/<tal>/friends"
-                "/user/<tal>/parents"
-
-                "/person/cpf/group/persons"
-
-                "match (p:Person)-[:belongs {since: '1990'}]-(g:Group { id: 'tal' }) return p"
 
                 describe("/:id") {
                     it("should return a HTTP status 200 and the requested user") {
