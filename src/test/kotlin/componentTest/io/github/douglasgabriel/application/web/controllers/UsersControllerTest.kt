@@ -1,6 +1,5 @@
 package componentTest.io.github.douglasgabriel.application.web.controllers
 
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import componentTest.commons.FuelSimplifier
 import componentTest.components.DIMock
@@ -8,7 +7,6 @@ import componentTest.components.Neo4JDatasource
 import io.github.douglasgabriel.application.Application
 import io.github.douglasgabriel.application.web.controllers.UsersController
 import io.github.douglasgabriel.domain.user.entities.User
-import io.github.douglasgabriel.resources.persistence.user.dtos.ChatGroupNode
 import io.github.douglasgabriel.resources.persistence.user.dtos.UserNode
 import org.eclipse.jetty.http.HttpStatus
 import kotlin.test.assertEquals
