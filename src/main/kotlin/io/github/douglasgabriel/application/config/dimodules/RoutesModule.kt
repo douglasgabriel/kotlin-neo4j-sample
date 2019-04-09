@@ -6,6 +6,6 @@ import org.koin.dsl.module.module
 object RoutesModule {
 
     fun modules() = module {
-        single { UsersRoutes(get()) }
+        single { UsersRoutes(get(), get()) }
     }
 }

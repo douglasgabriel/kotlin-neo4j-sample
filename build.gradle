@@ -41,6 +41,7 @@ dependencies {
     compile 'com.natpryce:konfig:1.6.10.0'
     compile "org.neo4j:neo4j-ogm-core:$neo4jCore"
     compile "org.json:json:20090211"
+    compile "com.github.pgutkowski:kgraphql:0.3.0"
 
     runtime "org.neo4j:neo4j-ogm-bolt-driver:$neo4jCore"
 
