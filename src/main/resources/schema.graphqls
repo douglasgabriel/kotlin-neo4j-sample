@@ -1,0 +1,12 @@
+schema {
+    query: Query
+}
+
+type Query {
+    userByUsername(username: String): User
+}
+
+type User {
+    username: String
+    age: Int
+}

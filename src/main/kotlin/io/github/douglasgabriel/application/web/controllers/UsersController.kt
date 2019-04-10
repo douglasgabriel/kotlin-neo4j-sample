@@ -1,5 +1,6 @@
 package io.github.douglasgabriel.application.web.controllers
 
+import graphql.schema.DataFetchingEnvironment
 import io.github.douglasgabriel.application.web.dtos.AddChatGroupRequest
 import io.github.douglasgabriel.application.web.dtos.AddFriendRequest
 import io.github.douglasgabriel.application.web.dtos.CreateUserRequest
@@ -21,6 +22,12 @@ class UsersController(
                     friends = emptyList()
             )
     )
+
+    fun getByUsername(dataFetchingEnvironment: DataFetchingEnvironment): User {
+        val username: String = dataFetchingEnvironment.getArgument("username")
+
+        return userService.retrieveById(username)
+    }
 
     fun retrieveById(ctx: Context) {
         val userName = ctx.pathParam("username")
